@@ -12,13 +12,29 @@ type Props = {
 }
 
 const SingleTodo = ({todo, todos, setTodos}: Props) => {
+
+  const handleDone = (id:number) => {
+    setTodos(todos.map((todo) =>
+    todo.id === id ? {...todo, isDone: !todo.isDone} : todo));
+  };
+
+  const handleDelete = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return(
     <form className='todos_single'>
-    <span className='todos_single--text'>{todo.todo}</span>
+      {todo.isDone ? (
+          <s className='todos_single--text'>{todo.todo}</s>
+        ) : (
+          <span className='todos_single--text'>{todo.todo}</span>
+        )}
     <div>
       <span className="icon"><EditIcon/></span>
-      <span className="icon"><DeleteIcon /></span>
-      <span className="icon"><CheckIcon /></span>
+      <span className="icon" onClick={()=>handleDelete(todo.id)}>
+      <DeleteIcon /></span>
+      <span className="icon" onClick={()=>handleDone(todo.id)}>
+      <CheckIcon /></span>
     </div>
     </form>
   )
